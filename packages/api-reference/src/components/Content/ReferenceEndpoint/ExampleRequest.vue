@@ -17,6 +17,7 @@ import { useGlobalStore } from '../../../stores'
 import { useTemplateStore } from '../../../stores/template'
 import type { TransformedOperation } from '../../../types'
 import { Card, CardContent, CardFooter, CardHeader } from '../../Card'
+import { CodeBlock } from '../../CodeBlock'
 
 const props = defineProps<{
   operation: TransformedOperation
@@ -31,6 +32,10 @@ const { server: serverState, authentication: authenticationState } =
 
 const CodeMirrorLanguages = computed(() => {
   return [state.selectedClient.targetKey]
+})
+
+const CodeBlockLanguage = computed(() => {
+  return state.selectedClient.targetKey
 })
 
 const generateSnippet = async (): Promise<string> => {
@@ -150,6 +155,9 @@ computed(() => {
         :languages="CodeMirrorLanguages"
         lineNumbers
         readOnly />
+      <CodeBlock
+        :language="CodeBlockLanguage"
+        :value="CodeMirrorValue" />
     </CardContent>
     <CardFooter
       v-if="$slots.footer"
